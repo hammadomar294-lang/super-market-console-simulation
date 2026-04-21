@@ -2,6 +2,7 @@
 
 using namespace std;
 
+int Product::NextId = 1;
 #pragma region getters and setters
 
 int Product::GetId() const
@@ -48,10 +49,41 @@ void Product::SetQuantity(int quantity)
     Quantity = quantity;
 }
 
+int Product::GetBudget()
+{
+    return Budget;
+}
+
+double Product::GetTotal()
+{
+    return Total;
+}
+
+void Product::SetTotal(double total)
+{
+    if (total < 0) return;
+    Total = total;
+}
+
+void Product::SetBudget(int budget)
+{
+    if (budget <= 0 || budget > 100000) return;
+    Budget = budget;
+}
+
 #pragma endregion
 
-// constructor
-Product::Product(int id, const string &name, double price, int quantity)
+// constructors
+// new product constructor
+Product::Product (const string &name, double price, int quantity)
+{
+    Id = NextId++;
+    Name = name;
+    Price = price;
+    Quantity = quantity;
+}
+// existing product constructor
+Product::Product (int id ,const string &name, double price, int quantity)
 {
     Id = id;
     Name = name;
@@ -74,6 +106,12 @@ bool Product::isOutOfStock() const
 bool Product::NeedReStock() const
 {
     return Quantity <= 3;
+}
+
+void Product::SyncIdGenerator(int next_id)
+{
+    if (next_id <= 0) return;
+    NextId = next_id;
 }
 
 #pragma endregion

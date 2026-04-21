@@ -13,6 +13,9 @@ private :
     double Price;
     int Quantity;
     // TODO: add category class
+    static int NextId;
+    
+
 
 public :
     // id
@@ -40,7 +43,7 @@ public :
     bool isOutOfStock() const;
     bool NeedReStock() const;
 
-
+   static void SyncIdGenerator(int next_id);
 
 };
 
