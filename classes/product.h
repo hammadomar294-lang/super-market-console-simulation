@@ -14,8 +14,6 @@ private :
     int Quantity;
     // TODO: add category class
     static int NextId;
-    
-
 
 public :
     // id

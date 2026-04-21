@@ -49,27 +49,6 @@ void Product::SetQuantity(int quantity)
     Quantity = quantity;
 }
 
-int Product::GetBudget()
-{
-    return Budget;
-}
-
-double Product::GetTotal()
-{
-    return Total;
-}
-
-void Product::SetTotal(double total)
-{
-    if (total < 0) return;
-    Total = total;
-}
-
-void Product::SetBudget(int budget)
-{
-    if (budget <= 0 || budget > 100000) return;
-    Budget = budget;
-}
 
 #pragma endregion
 
