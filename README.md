@@ -13,6 +13,8 @@ The project focuses on clean separation of responsibility between system layers 
 
 It simulates inventory management, cart operations, persistence, and analytics using custom Binary Search Trees.
 
+This project is part of a self-directed C++ system design track focused on layered architecture, separation of responsibility between components, and performance-aware data structure selection based on time complexity analysis.
+
 ---
 
 ## Architecture
