@@ -1,3 +1,7 @@
+#ifndef CART_H
+#define CART_H
+
+
 #include <vector>
 #include <string>
 #include "classes/domain/CartItem.h"
@@ -5,8 +9,6 @@
 
 using namespace std;
 
-#ifndef CART_H
-#define CART_H
 class Cart
 {
 private:
@@ -23,7 +25,9 @@ struct Action
             Operation = operation;
         }
     };
+
     vector<CartItem> CartItemVector;
+    
     stack<Action> Undo;   
     stack<Action> Redo;
     

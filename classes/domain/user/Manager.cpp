@@ -40,3 +40,8 @@ string Manager::GetName() const
 {
     return Name;
 }
+
+bool Manager::CheckPassword(const string &password) const
+{
+    return password == Password;
+}

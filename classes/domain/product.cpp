@@ -125,28 +125,27 @@ void Product::SyncProductId(int max_id)
 
 #pragma region bussiness
 
-bool Product::Sell(int amount)
+void Product::Sell(int amount)
 {
-    if (amount <= 0)
-        return false;
-    if (!isSufficient(amount))
-        return false;
+    if (amount <= 0 || !isSufficient(amount))
+        throw runtime_error("invalid amount");
+    
     Quantity -= amount;
-    return true;
 }
 
-bool Product::ReName(const string &new_name)
+void Product::ReName(const string &new_name)
 {
-    if (new_name.empty()) return false;
+    if (new_name.empty())
+        throw runtime_error("name is empty");
     Name = new_name;
-    return true;
+    
 }
 
-bool Product::AddStock(int quantity)
+void Product::AddStock(int quantity)
 {
-    if (quantity < 0) return false;
-    Quantity += quantity;
-    return true;
+    if (quantity <= 0 || quantity > category.GetMaxAmount() - Quantity)
+        throw runtime_error("invalid amount");
+    Quantity += quantity
 }
 
 double Product::GetSalesPrice() const
@@ -154,6 +153,11 @@ double Product::GetSalesPrice() const
     return Price * category.GetTax() / 100.0;
 }
 
+const Category &Product::GetCategory() const
+{
+    return category;
+}
 
 #pragma endregion
+
 

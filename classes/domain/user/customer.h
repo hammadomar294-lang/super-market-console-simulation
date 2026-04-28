@@ -1,20 +1,25 @@
+#ifndef CUSTOMER_H
+#define CUSTOMER_H
+
+
 #include <string>
 #include "classes/store/Cart.h"
 #include "classes/domain/user/User.h"
-
+#include <stdexcept>
 using namespace std;
 
-#ifndef CUSTOMER_H
-#define CUSTOMER_H
 
 class Customer : public User
 {
 private :
     Cart cart;
+    double Budget;
+    static double ValidateBudget(double budget);
 public :
-    Customer(int id);
+    Customer(int id , double budget);
 
-    Cart & GetCart();
+    double GetBudget() const;
+    Cart & GetCart() const;
 };
 
 #endif 

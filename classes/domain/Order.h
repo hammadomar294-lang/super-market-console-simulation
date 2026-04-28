@@ -1,10 +1,12 @@
+#ifndef ORDER_H
+#define ORDER_H
+
+
 #include <string>
 #include "classes/domain/CartItem.h"
 #include <vector>
 using namespace std;
 
-#ifndef ORDER_H
-#define ORDER_H
 
 class Order
 {

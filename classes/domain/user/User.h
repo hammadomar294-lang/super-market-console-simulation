@@ -1,9 +1,11 @@
+#ifndef USER_H
+#define USER_H
+
 #include <string>
 #include <stdexcept>
 using namespace std;
 
-#ifndef USER_H
-#define USER_H
+
 class User
 {
 private:

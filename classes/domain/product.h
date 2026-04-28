@@ -1,6 +1,6 @@
 #include <string>
 #include "classes/domain/Category.h"
-
+#include <stdexcept>
 using namespace std;
 
 #ifndef PRODUCT_H
@@ -34,17 +34,20 @@ public :
     // quantity
     int GetQuantity() const;
     void SetQuantity(int quantity);
-
     // sales price
     double GetSalesPrice() const;
+    
+    const Category & GetCategory() const;
+
+
     // constructor
     Product(int id , const string &name , double price , int quantity , const Category & category);
     Product(const string &name , double price , int quantity , const Category & category);
 
     // business logic
-    bool Sell(int amount);
-    bool ReName(const string &new_name);
-    bool AddStock(int quantity);
+    void Sell(int amount);
+    void ReName(const string &new_name);
+    void AddStock(int quantity);
 
     // helpers
     bool isSufficient(int amount) const;

@@ -1,18 +1,7 @@
 #include "PersistenceData.h"
-#include <string>
-#include <fstream>
-#include <stdexcept>
-using namespace std;
 
-unordered_map<int, Category> PersistenceData::MakeCategoryMap(const vector<Category> &categories)
-{
-    unordered_map<int, Category> category_map;
-    for (const auto & category : categories)
-    {
-        category_map[category.GetCategoryId()] = category;
-    }
-    return category_map;
-}
+int PersistenceData::CategoryMaxId = 0;
+int PersistenceData::ProductMaxId = 0;
 
 const Category & PersistenceData::FindCategory(const unordered_map<int, Category> &map , int category_id)
 {
@@ -40,26 +29,24 @@ pair<string, string> PersistenceData::LoadManagerData()
     return p;
 }
 
-vector<Product> PersistenceData::LoadProducts(const vector<Category> & categories)
+unordered_map<int , Product> PersistenceData::LoadProducts(const unordered_map<int , Category> & categories)
 {   
     ifstream file("data/products.txt");
     if(!file.is_open())
         throw runtime_error("products.txt couldn't be opened");
 
-    vector<Product> products;
-
-    auto category_map = MakeCategoryMap(categories);
+    unordered_map<int , Product> products;
 
     int product_id , quantity , category_id;
     double price;
     string name;
 
-    ProductMaxId = 0;
-
     while(file>> product_id >> name >> price >> quantity >> category_id)
     {
-        Product product{product_id,name,price,quantity,FindCategory(category_map,category_id)};
-        products.push_back(product);
+        Product product{product_id,name,price,quantity,FindCategory(categories,category_id)};
+
+        products[product_id] = product;
+
         if (product_id > ProductMaxId)
             ProductMaxId = product_id;
     }
@@ -69,23 +56,37 @@ vector<Product> PersistenceData::LoadProducts(const vector<Category> & categorie
     return products;
 }
 
-vector<Category> PersistenceData::LoadCategories()
+void PersistenceData::SaveProducts(const unordered_map<int , Product> & products)
+{
+    ofstream file("data/products.txt");
+    if (!file.is_open())
+        throw runtime_error("products.txt couldn't be opened");
+    
+    for (const auto & product : products)
+    {
+        file<<product.second.GetId() << " " << product.second.GetName() << " " << product.second.GetPrice() << " " <<
+            product.second.GetQuantity() << " " << product.second.GetCategory().GetCategoryId() << "\n";
+    }
+    file.close();
+}
+
+unordered_map<int , Category> PersistenceData::LoadCategories()
 {
     ifstream file("data/categories.txt");
     if(!file.is_open())
         throw runtime_error("categories.txt couldn't be opened");
 
-    vector<Category> categories;
+    unordered_map<int , Category> categories;
 
     int id , tax , max_amount , least_amount;
     string name;
 
-    CategoryMaxId = 0;
-
     while(file>>id>>name>>tax>>max_amount>>least_amount)
     {
         Category category{id,name,tax,max_amount,least_amount};
-        categories.push_back(category);
+
+        categories[id] = category;
+        
         if (id > CategoryMaxId)
             CategoryMaxId = id;
     }
@@ -94,7 +95,7 @@ vector<Category> PersistenceData::LoadCategories()
     return categories;
 }
 
-void PersistenceData::SaveCategories(const vector<Category> &categories)
+void PersistenceData::SaveCategories(const unordered_map<int , Category> &categories)
 {
     ofstream file("data/categories.txt");
     if (!file.is_open())
@@ -102,8 +103,8 @@ void PersistenceData::SaveCategories(const vector<Category> &categories)
     
     for (const auto & category : categories)
     {
-        file<<category.GetCategoryId()<<" " <<category.GetCategoryName() << " " <<category.GetTax() << " " <<
-             category.GetMaxAmount() << " " << category.GetLeastAmount() << "\n";
+        file<<category.second.GetCategoryId()<< " " << category.second.GetCategoryName() << " " << category.second.GetTax() << " " <<
+            category.second.GetMaxAmount() << " " << category.second.GetLeastAmount() << "\n";
     }
     file.close();
 }
@@ -119,7 +120,6 @@ unordered_map<int , int> PersistenceData::LoadSales()
 
     while (file>>product_id>>amount)
     {
-        Sales sale{product_id,amount};
         sales[product_id] = amount;
     }
     file.close();
@@ -134,7 +134,7 @@ void PersistenceData::SaveSales(const unordered_map<int , int> &sales)
     
     for(const auto & sale : sales)
     {
-        file<<sale.first<< " " << sale.second() <<"\n";
+        file<< sale.first << " " << sale.second <<"\n";
     }
     file.close();
 }
