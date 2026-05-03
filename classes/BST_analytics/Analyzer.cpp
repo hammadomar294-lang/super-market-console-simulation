@@ -6,9 +6,15 @@ void Analyzer::BuildSalesTree(const unordered_map<int, int> &sales_map)
     SalesTree.BuildTree(sales_map);
 }
 
-void Analyzer::BuildPricesTree(const unordered_map<int, int> &prices_map) 
+void Analyzer::BuildPricesTree(const unordered_map<int, Product> &prices_map) 
 {
     PricesTree.BuildTree(prices_map);
+}
+
+Analyzer::Analyzer(const unordered_map<int, int> &sales_map, const unordered_map<int, Product> &prices_map)
+{
+    BuildPricesTree(prices_map);
+    BuildSalesTree(sales_map);
 }
 
 vector<int> Analyzer::GetAscending_Sales_Ids() const
@@ -34,6 +40,21 @@ int Analyzer::GetMostSoldId() const
 int Analyzer::GetLeastSoldId() const
 {
     return SalesTree.GetLeastSoldId();
+}
+
+vector<int> Analyzer::GetAscending_Price_Ids() const
+{
+    return PricesTree.GetAscendingIds();
+}
+
+vector<int> Analyzer::GetDescending_Price_Ids() const
+{
+    return PricesTree.GetDescendingIds();
+}
+
+vector<int> Analyzer::GetPrice_IdsWithinRange(double low, double high) const
+{
+    return vector<int>();
 }
 
 int Analyzer::GetMostExpensiveId() const

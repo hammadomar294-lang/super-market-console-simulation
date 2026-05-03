@@ -152,6 +152,11 @@ vector<int> PriceBST::GetNthCheapestHelper(Node *current, int n) const
     return result;
 }
 
+vector<int> PriceBST::GetIdsWithinRangeHelper(Node *current, double low, double high) const
+{
+    ;
+}
+
 bool PriceBST::IsEmpty() const
 {
     return Root == nullptr;
@@ -161,13 +166,13 @@ bool PriceBST::IsEmpty() const
 
 #pragma region logic
 
-void PriceBST::BuildTree(const unordered_map<int, int> &prices)
+void PriceBST::BuildTree(const unordered_map<int, Product> &prices)
 {
     Clear(Root);
     Root = nullptr;
     for (const auto & pair : prices)
     {
-        Insert(pair.first , pair.second);
+        Insert(pair.first , pair.second.GetPrice());
     }
 }
 

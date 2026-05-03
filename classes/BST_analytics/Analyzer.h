@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include "classes/BST_analytics/PriceBST.h"
 #include "classes/BST_analytics/SalesBST.h"
+#include "classes/domain/Product.h"
 using namespace std;
 
 
@@ -15,12 +16,13 @@ class Analyzer
 private:
     SalesBST SalesTree;
     PriceBST PricesTree;
+    static void BuildSalesTree(const unordered_map <int , int> & sales_map);
+    static void BuildPricesTree(const unordered_map <int , Product> & prices_map);
 public:
 
+    Analyzer(const unordered_map <int , int> & sales_map , const unordered_map <int , Product> & prices_map);
+
     // sales functions
-    void BuildSalesTree(const unordered_map <int , int> & sales_map);
-    void BuildPricesTree(const unordered_map <int , int> & prices_map);
-    
     vector <int> GetAscending_Sales_Ids() const;
     vector <int> GetDescending_Sales_Ids() const;
     vector <int> GetNthMostSoldIds(int n) const;
@@ -31,6 +33,7 @@ public:
     // price functions
     vector <int> GetAscending_Price_Ids() const;
     vector <int> GetDescending_Price_Ids() const;
+    vector <int> GetPrice_IdsWithinRange(double low , double high) const;
 
     int GetMostExpensiveId() const;
     int GetCheapestId() const;

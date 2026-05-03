@@ -13,8 +13,8 @@ class Cart
 {
 private:
 
-Action MakeAction(const CartItem &item , bool operation);
-struct Action
+
+    struct Action
     {
         CartItem Item;
         bool Operation;
@@ -26,6 +26,8 @@ struct Action
         }
     };
 
+    Action MakeAction(const CartItem &item , bool operation);
+    
     vector<CartItem> CartItemVector;
     
     stack<Action> Undo;   

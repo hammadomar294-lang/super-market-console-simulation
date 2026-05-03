@@ -29,10 +29,13 @@ public:
     bool HasProduct(int product_id) const;
     Product & GetProduct(int product_id);
 
+    vector <Product> GetLowStockProducts() const; // the quantity of that low stock products in store class
+
+
     void RestockProduct(int product_id , int amount);
     void DecreaseStock(int product_id , int amount);
+    void ChangePrice(int product_id , double new_price)
 
-    unordered_map<int , Product> GetLowStockProducts() const; // the quantity of that low stock products in store class
 
     void AddProduct(const Product& product);
     void RemoveProduct(int id);

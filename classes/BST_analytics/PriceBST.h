@@ -6,6 +6,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <utility>
+#include "classes/domain/Product.h
 using namespace std;
 
 
@@ -41,7 +42,7 @@ private:
 
     Node * Root;
 
-    void Insert(int id , int price);
+    void Insert(int id , double price);
     void Clear(Node * current);
 
     vector <int> DFS_inorder(Node * current) const;
@@ -52,14 +53,15 @@ private:
 
     vector <int> GetNthExpensiveHelper(Node * current , int n) const;
     vector <int> GetNthCheapestHelper(Node * current , int n) const;
+    vector <int> GetIdsWithinRangeHelper(Node * current , double low , double high) const;
     
 public:
 
-    void BuildTree(const unordered_map<int , int> & prices);
+    void BuildTree(const unordered_map<int , Product> & prices);
 
     vector <int> GetAscendingIds() const;
     vector <int> GetDescendingIds() const;
-
+    vector <int> GetIdsWithinRange(double low , double high) const;
     int GetMostExpensiveId() const;
     int GetCheapestId() const;
     

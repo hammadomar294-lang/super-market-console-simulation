@@ -1,7 +1,7 @@
 #include "classes/domain/Product.h"
 #include <string>
 #include <stdexcept>
-#include "Product.h"
+
 
 using namespace std;
 
@@ -86,6 +86,7 @@ Product::Product (const string &name, double price, int quantity , Category& cat
     Name = ValidateName(name);
     Price = ValidatePrice(price);
     Quantity = ValidateQuantity(quantity);
+    Category = category;
 }
 // existing product constructor
 Product::Product (int id ,const string &name, double price, int quantity , Category& category)
@@ -94,6 +95,7 @@ Product::Product (int id ,const string &name, double price, int quantity , Categ
     Name = ValidateName(name);
     Price = ValidatePrice(price);
     Quantity = ValidateQuantity(quantity);
+    Category = category;
 }
 
 #pragma region helpers

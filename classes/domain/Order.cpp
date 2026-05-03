@@ -29,7 +29,7 @@ const double Order::GetTotal() const
     return Total;
 }
 
-const vector<CartItem> &Order::GetItems() const
+const vector<CartItem> &Order::GetItemsVector() const
 {
     return Items;
 }

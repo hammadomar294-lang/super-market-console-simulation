@@ -39,13 +39,13 @@ void Inventory::DecreaseStock(int product_id, int amount)
     GetProduct(product_id).Sell(amount);
 }
 
-unordered_map<int, Product> Inventory::GetLowStockProducts() const
+vector <Product> Inventory::GetLowStockProducts() const
 {
-    unordered_map<int, Product> low_stock;
+    vector <Product> low_stock;
     for (const auto & pair : ProductMap)
     {
         if (pair.second.NeedReStock())
-            low_stock[pair.first] = pair.second;
+            low_stock.push_back(pair.second);
     }
     return low_stock;
 }
@@ -71,6 +71,14 @@ void Inventory::RenameProduct(int id, const string &new_name)
         GetProduct(id).ReName(new_name);
     else
         throw runtime_error("Product does not exist");
+}
+
+void Inventory::ChangePrice(int product_id , double new_price)
+{
+    if (HasProduct(product_id))
+        ProductMap[product_id].SetPrice(new_price);
+
+    throw runtime_error("Product does not exist");
 }
 
 bool Inventory::HasCategory(int category_id) const
