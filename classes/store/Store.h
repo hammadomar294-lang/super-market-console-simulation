@@ -23,7 +23,7 @@ private:
 public:
 
     Store();
-    // all vectors are ids vectors
+    
     #pragma region customer functions
 
     void AddToCart(Customer & customer , int product_id , int amount);
@@ -74,7 +74,11 @@ public:
     //   total   , number of items 
     pair <double , int> CalculateTotalAndNumberOfItems(const Customer & customer) const;
 
-    void EndSession();
+    void StartCustomerSession();
+    void EndCustomerSession();
+
+    void StartManagerSession();
+    void EndManagerSession();
 };
 
 #endif

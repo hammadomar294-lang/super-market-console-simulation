@@ -1,4 +1,4 @@
-main:
-	g++ -std=c++17 main.cpp -o main
+app:
+	g++ -std=c++17 test.cpp -o test
 run:
-	./main
+	./test

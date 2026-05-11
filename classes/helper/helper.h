@@ -5,17 +5,27 @@
 #include <stdexcept>
 #include <unordered_map>
 #include <iostream>
-
-#include <classes/domain/Product.h>
-#include <classes/domain/CartItem.h>
+#include <limits>
 
 
+#include "classes/domain/Product.h"
+#include "classes/domain/Category.h"
+#include "classes/domain/CartItem.h"
+
+using namespace std;
 
 class helper
 {
 private:
     
 public:
+
+    static void Pause();
+    static void ClearScreen();
+
+    static bool Confirm();
+
+    static void PrintLine();
 
     static string AskForString(string msg);
     static int AskForInt(string msg);

@@ -28,6 +28,7 @@ public:
     // product helper
     bool HasProduct(int product_id) const;
     Product & GetProduct(int product_id);
+    const Product & GetProduct(int product_id) const;
 
     vector <Product> GetLowStockProducts() const; // the quantity of that low stock products in store class
 

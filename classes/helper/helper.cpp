@@ -1,6 +1,50 @@
 #include "classes/helper/helper.h"
 #include "helper.h"
 
+
+void helper::Pause()
+{
+    cout<<"press any key to continue..."<<endl;
+    cin.ignore();
+    cin.get();
+}
+
+void helper::ClearScreen()
+{
+    system("clear");
+}
+bool helper::Confirm()
+{
+    char answer;
+    while (true)
+    {
+        cout<<"Are you sure ? (y/n) "<<endl;
+        cin>>answer;
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            continue;
+        }
+
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        if (answer == 'y' || answer == 'Y')
+            return true;
+        else if (answer == 'n' || answer == 'N')
+            return false;
+        
+        cout<<"Invalid input try (y) for yes and (n) for no"<<endl;
+    }
+    
+}
+
+void helper::PrintLine()
+{
+    cout<<"-----------------------------------------"<<endl;
+}
+
 string helper::AskForString(string msg)
 {
     string input;

@@ -1,6 +1,8 @@
 #include "classes/store/Store.h"
 #include "Store.h"
 
+Store::Store() = default; // becaus members constructors run automaticly and trees are built presession
+
 void Store::AddToCart(Customer &customer, int product_id, int amount)
 {
     Product &product = inventory.GetProduct(product_id);
@@ -16,11 +18,22 @@ void Store::AddToCart(Customer &customer, int product_id, int amount)
 Order Store::CheckOut(Customer &customer)
 {
     auto & items_vector = customer.GetCart().GetItemsVector();
+
     if (items_vector.empty())
         throw runtime_error("cart is empty");
 
+    bool can_afford = CanAffordCart(customer);
+    if (!can_afford)
+        throw runtime_error("can't afford cart remove some items");
+
     Order order{items_vector};
 
+    for (auto & item : items_vector)
+    {
+        inventory.DecreaseStock(item.GetProductId() , item.GetAmount());
+        inventory.AddSale(item.GetProductId() , item.GetAmount());
+    }
+    
     customer.GetCart().Clear();
 
     return order;
@@ -85,7 +98,7 @@ const Product & Store::GetCheapest() const
 
 const vector<CartItem> &Store::ShowCartItems(const Customer &customer) const
 {
-    customer.GetCart().GetItemsVector();
+    return customer.GetCart().GetItemsVector();
 }
 
 void Store::ClearCart(Customer &customer)
@@ -150,7 +163,7 @@ const Product &Store::LeastSold() const
     return inventory.GetProduct(id);
 }
 
- vector<Product> Store::AscendingSales() const
+ vector< pair<Product , int> > Store::AscendingSales() const
 {
     vector <int> ids = analyzer.GetAscending_Sales_Ids();
     vector < pair<Product , int> >  sales;
@@ -158,7 +171,7 @@ const Product &Store::LeastSold() const
     for (const auto & id : ids)
     {   
         temp.first = inventory.GetProduct(id);
-        temp.second = inventory.GetSalesMap().find(id);
+        temp.second = inventory.GetSalesMap().at(id);
         sales.push_back(temp);
     } 
     return sales;
@@ -172,7 +185,7 @@ const Product &Store::LeastSold() const
     for (const auto & id : ids)
     {   
         temp.first = inventory.GetProduct(id);
-        temp.second = inventory.GetSalesMap().find(id);
+        temp.second = inventory.GetSalesMap().at(id);
         sales.push_back(temp);
     } 
     return sales;
@@ -195,6 +208,8 @@ void Store::EnqueueOrder(Order & order)
 
 void Store::DequeueOrder()
 {
+    if (OrderQueue.empty())
+        throw runtime_error("queue is empty");
     OrderQueue.pop();
 }
 
@@ -208,6 +223,30 @@ pair<double, int> Store::CalculateTotalAndNumberOfItems(const Customer &customer
     return total_and_numberOfItems;
 }
 
-void Store::EndSession()
+void Store::StartCustomerSession()
 {
+    analyzer.BuildPricesTree(inventory.GetProductMap());
+}
+
+void Store::EndCustomerSession()
+{
+    PersistenceData::SaveProducts(inventory.GetProductMap());
+
+    PersistenceData::SaveSales(inventory.GetSalesMap());
+
+    analyzer.BuildSalesTree(inventory.GetSalesMap());
+}
+
+void Store::StartManagerSession()
+{
+    analyzer.BuildSalesTree(inventory.GetSalesMap());
+}
+
+void Store::EndManagerSession()
+{
+    PersistenceData::SaveProducts(inventory.GetProductMap());
+
+    PersistenceData::SaveCategories(inventory.GetCategoryMap());
+
+    analyzer.BuildPricesTree(inventory.BuildPriceMap());
 }

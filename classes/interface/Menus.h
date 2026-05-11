@@ -4,29 +4,44 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <iomanip>
 
 #include "classes/domain/Product.h"
 #include "classes/domain/Category.h"
 #include "classes/domain/user/customer.h"
+#include "classes/helper/helper.h"
 
 using namespace std;
 
 class Menus
 {
+private:
+    void ShowCustomerOptions();
+    void ShowCustomerHeader(const Customer& customer);
+    void ShowCartItems(const Customer & customer);
+
+    void ShowManagerOptions();
+    void ShowLowStockProducts(const vector<Product> & low_stock_products);
+
 public:
-    static void ShowMainMenu();
+    void ShowMainMenu();
 
-    // product
-    static void ShowCustomerMenu();
+    // both
+    void ShowProducts(const unordered_map<int , Product> & products);
+    void ShowProducts(const vector< Product> & products);
 
-    static void ShowProducts(const unordered_map<int , Product> & products);
-    static void ShowProducts(const vector< Product> & products);
+    // customer
     
-    static void ShowCartItems(const Customer & customer);
+    void ShowCustomerMenu(const Customer& customer);
+    void ShowProductsOptions();
+    
 
     // manager
-    static void ShowMangerMenu();
-    static void ShowLowStockProducts(const vector<Product> & low_stock_products);
+    void ShowMangerMenu(const vector<Product>& low_stock_products);
+
+    void ShowProductsMenu();
+    void ShowCategoriesMenu();
+    void ShowAnalyticsMenu();
 
 };
 

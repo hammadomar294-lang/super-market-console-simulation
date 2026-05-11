@@ -4,7 +4,7 @@
 
 #pragma region helpers
 
-void PriceBST::Insert(int id, int price)
+void PriceBST::Insert(int id, double price)
 {
     Node *temp = new Node{id,price};
     if (IsEmpty())
@@ -152,9 +152,24 @@ vector<int> PriceBST::GetNthCheapestHelper(Node *current, int n) const
     return result;
 }
 
-vector<int> PriceBST::GetIdsWithinRangeHelper(Node *current, double low, double high) const
+vector<int> PriceBST::GetIdsWithinRangeHelper(Node *current, double low, double high , vector<int> ids) const
 {
-    ;
+    if (Root == nullptr)
+        return;
+
+    if (node->price > low)
+        GetIdsWithinRangeHelper(node->left, low, high, ids);
+
+    if (node->price >= low && node->price <= high)
+    {
+        for (const auto& id : node->ids)
+        {
+            ids.push_back(id);
+        }
+    }
+
+    if (node->price < high)
+        GetIdsWithinRangeHelper(node->right, low, high, ids);
 }
 
 bool PriceBST::IsEmpty() const
@@ -184,6 +199,15 @@ vector<int> PriceBST::GetAscendingIds() const
 vector<int> PriceBST::GetDescendingIds() const
 {
     return DFS_reverse_inorder(Root);
+}
+
+vector<int> PriceBST::GetIdsWithinRange(double low, double high) const
+{
+    vector<int> ids;
+
+    GetIdsWithinRangeHelper(root, low, high, ids);
+
+    return ids;
 }
 
 int PriceBST::GetMostExpensiveId() const

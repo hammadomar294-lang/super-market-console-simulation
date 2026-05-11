@@ -3,6 +3,8 @@
 #include <vector>
 #include <fstream>
 #include <unordered_map>
+#include <iomanip>
+
 
 using namespace std;
 
@@ -173,17 +175,35 @@ void SaveStudentToArray(Student student)
 #pragma endregion
 
 
-void ShowProducts(const vector<Product> &products)
+void ShowProducts(const vector<Product>& products)
 {
-    
-    for (int i = 1 , j = 0; i <= products.size()/2 , j < products.size()/2 ; i++ , j++)
+    system("clear");
+
+    cout << "\n\n";
+
+    for (int i = 0; i < products.size(); i += 2)
     {
-            cout<<i + j<<". " <<products[i + j - 1].Name << "  " << products[i + j - 1].Price << " EGP " << products[i + j - 1].Quantity << " Unit\t" <<
-               i + j + 1<<". "<<products[i + j].Name << "  " << products[i + j].Price << " EGP " << products[i + j].Quantity << " Unit\t"<<"\n \n";
+        string first =
+            to_string(i + 1) + ". " +
+            products[i].Name + " " +
+            to_string((int)products[i].Price) + " EGP " +
+            to_string(products[i].Quantity) + " Unit";
+
+        cout << left << setw(40) << first;
+
+        if (i + 1 < products.size())
+        {
+            string second =
+                to_string(i + 2) + ". " +
+                products[i + 1].Name + " " +
+                to_string((int)products[i + 1].Price) + " EGP " +
+                to_string(products[i + 1].Quantity) + " Unit";
+
+            cout << second;
+        }
+
+        cout << "\n\n";
     }
-    if (products.size() % 2 != 0)
-        cout<<products.size()<<". "<<products[products.size() - 1].Name << "  " << products[products.size() - 1].Price << " EGP " << products[products.size() - 1].Quantity<< " Unit" <<"\n \n";
-    
 }
 
 int main()

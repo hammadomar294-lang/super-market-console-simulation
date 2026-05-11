@@ -53,7 +53,7 @@ private:
 
     vector <int> GetNthExpensiveHelper(Node * current , int n) const;
     vector <int> GetNthCheapestHelper(Node * current , int n) const;
-    vector <int> GetIdsWithinRangeHelper(Node * current , double low , double high) const;
+    vector <int> GetIdsWithinRangeHelper(Node * current , double low , double high , vector<int> ids) const;
     
 public:
 

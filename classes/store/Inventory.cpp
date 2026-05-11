@@ -29,6 +29,14 @@ Product &Inventory::GetProduct(int product_id)
     
 }
 
+const Product &Inventory::GetProduct(int product_id) const
+{
+    if (HasProduct(product_id))
+        return ProductMap[product_id];
+    else
+        throw runtime_error("Product doesn't exist");
+}
+
 void Inventory::RestockProduct(int product_id, int amount)
 {
     GetProduct(product_id).AddStock(amount);

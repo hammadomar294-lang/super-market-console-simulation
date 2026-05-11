@@ -138,9 +138,9 @@ void SalesBST::Clear(Node *current) // with recursion
 
 #pragma region logic
 
-void SalesBST::BuildTree(const unordered_map<int, int> &sales_tree)
+void SalesBST::BuildTree(const unordered_map<int, int> &sales_map)
 {
-    for (const auto & pair : sales)
+    for (const auto & pair : sales_map)
     {
         Insert(pair.first , pair.second);
     }
