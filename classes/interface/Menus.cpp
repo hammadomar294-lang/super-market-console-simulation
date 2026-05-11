@@ -1,5 +1,4 @@
 #include "classes/interface/Menus.h"
-#include "Menus.h"
 
 
 void Menus::ShowMainMenu()
@@ -54,6 +53,7 @@ void Menus::ShowProducts(const vector<Product>& products)
     }
 
     helper::PrintLine();
+    helper::GoBack();
 }
 
 vector<int> Menus::ShowProducts(const unordered_map<int, Product>& products)
@@ -93,7 +93,7 @@ vector<int> Menus::ShowProducts(const unordered_map<int, Product>& products)
         cout << "\n\n";
 
     helper::PrintLine();
-
+    helper::GoBack();
     return displayed_ids;
 }
 
@@ -184,7 +184,7 @@ void Menus::ShowCustomerMenu(const Customer& customer)
     ShowCustomerOptions();
 }
 
-void Menus::ShowProductsOptions()
+void Menus::ShowCustomerOptions()
 {
     cout << "Choose product number: \n\n";
     cout << "0. Back\n";
@@ -260,7 +260,7 @@ void Menus::ShowMangerMenu(const vector<Product> &low_stock_products)
     cout << "Choice: ";
 }
 
-void Menus::ShowProductsMenu()
+void Menus::ShowManagerProductsOptionsMenu()
 {
     helper::ClearScreen();
 
@@ -291,10 +291,9 @@ void Menus::ShowCategoriesMenu()
 
     cout << "1. Show Categories\n";
     cout << "2. Add Category\n";
-    cout << "3. Remove Category\n";
-    cout << "4. Rename Category\n";
-    cout << "5. Restock Category\n";
-    cout << "6. Back\n";
+    cout << "3. Rename Category\n";
+    cout << "4. Restock Category\n";
+    cout << "5. Back\n";
 
     helper::PrintLine();
 
@@ -320,4 +319,10 @@ void Menus::ShowAnalyticsMenu()
     cout << "Choice: ";
 }
 
-
+void Menus::ShowSales(const vector<pair<Product, int>> & sales)
+{
+    for (const auto & pair : sales)
+    {
+        cout<<pair.first.GetName()<< "  " <<pair.second<<"  Units"<<endl;
+    }
+}

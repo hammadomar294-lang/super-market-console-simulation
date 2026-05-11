@@ -15,6 +15,7 @@ private :
     double Price;
     int Quantity;
     Category category;
+    
     static int NextId;
 
     static int ValidateId(int id);
@@ -40,9 +41,9 @@ public :
     const Category & GetCategory() const;
 
 
-    // constructor
-    Product(int id , const string &name , double price , int quantity , const Category & category);
-    Product(const string &name , double price , int quantity , const Category & category);
+    // constructors
+    Product(int id , const string &name , double price , int quantity , const Category & category); // for existing products
+    Product(const string &name , double price , int quantity , const Category & category); // for new products
 
     // business logic
     void Sell(int amount);

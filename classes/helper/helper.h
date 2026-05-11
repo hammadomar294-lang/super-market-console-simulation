@@ -19,7 +19,7 @@ class helper
 private:
     
 public:
-
+    static void GoBack();
     static void Pause();
     static void ClearScreen();
 
@@ -32,7 +32,10 @@ public:
     static double AskForDouble(string msg);
 
     static int GetProductIdByName(const string & name , const unordered_map <int , Product> & products);
+    static bool DoesProductExist(const string & name , const unordered_map <int , Product> & products);
+    
     static int GetCategoryIdByName(const string & name , const unordered_map <int , Category> & categories);
+    static bool DoesCategoryExist(const string & name , const unordered_map <int , Category> & categories);
 };
 
 #endif

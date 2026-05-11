@@ -1,7 +1,5 @@
 #include "PriceBST.h"
 
-
-
 #pragma region helpers
 
 void PriceBST::Insert(int id, double price)

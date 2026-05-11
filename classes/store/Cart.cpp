@@ -1,6 +1,4 @@
 #include "classes/store/Cart.h"
-#include <string>
-#include "Cart.h"
 
 
 using namespace std;

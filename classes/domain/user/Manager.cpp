@@ -1,10 +1,4 @@
 #include "classes/domain/user/Manager.h"
-#include "classes/domain/user/User.h"
-#include <string>
-#include <stdexcept>
-#include "Manager.h"
-using namespace std;
-
 
 int Manager::validateID(int id)
 {

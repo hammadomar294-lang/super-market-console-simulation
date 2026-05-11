@@ -35,7 +35,7 @@ private:
     void HandleAnalyticsMenu();
 
     // customer 
-    void HandleProducts(Customer& customer);
+    void HandleProducts(Customer& customer); // all shows the product in inventory but take customer for it's cart
     void HandleProductsAscending(Customer& customer);
     void HandleProductsDescending(Customer& customer);
     void HandleProductsByCategory(Customer& customer);

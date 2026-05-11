@@ -1,4 +1,4 @@
-#include "Inventory.h"
+#include "classes/store/Inventory.h"
 
 const unordered_map<int, Product> &Inventory::GetProductMap() const
 {

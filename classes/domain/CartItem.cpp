@@ -1,7 +1,4 @@
-#include <string>
-#include <stdexcept>
 #include "classes/domain/CartItem.h"
-#include "CartItem.h"
 
 using namespace std;
 

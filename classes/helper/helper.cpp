@@ -1,6 +1,11 @@
 #include "classes/helper/helper.h"
-#include "helper.h"
 
+void helper::GoBack()
+{
+    cout<<"press any key to go back..."<<endl;
+    cin.ignore();
+    cin.get();
+}
 
 void helper::Pause()
 {
@@ -64,32 +69,61 @@ string helper::AskForString(string msg)
 
 int helper::AskForInt(string msg)
 {
-    cout << msg << endl;
-
     int x;
 
-    while(!(cin >> x))
+    while (true)
     {
-        cin.clear();
-        cin.ignore(1000,'\n');
-        cout << "Invalid input. Try again:\n";
+        cout << msg << endl;
+
+        if (!(cin >> x))
+        {
+            cin.clear();
+
+            cin.ignore(1000, '\n');
+
+            cout << "Invalid input. Try again.\n";
+
+            continue;
+        }
+
+        if (x < 0)
+        {
+            cout << "Number cannot be negative.\n";
+
+            continue;
+        }
+
+        return x;
     }
-
-    return x;
 }
-
 double helper::AskForDouble(string msg)
 {
-    cout<<msg<<endl;
-
     double x;
-    while (!(cin>>x))
+
+    while (true)
     {
-        cin.clear();
-        cin.ignore(1000 , '\n');
-        cout << "Invalid input. Try again:\n";
+        cout << msg << endl;
+
+        if (!(cin >> x))
+        {
+            cin.clear();
+
+            cin.ignore(1000, '\n');
+
+            cout << "Invalid input. Try again.\n";
+
+            continue;
+        }
+
+        if (x <= 0.0)
+        {
+            cout << "Number must be greater than 0.\n";
+
+            continue;
+        }
+
+        return x;
     }
-    return x;
 }
 
 int helper::GetProductIdByName(const string &name, const unordered_map<int, Product> &products)
@@ -101,6 +135,15 @@ int helper::GetProductIdByName(const string &name, const unordered_map<int, Prod
     }
     throw runtime_error("product was not found try again");
 }
+bool helper::DoesProductExist(const string &name, const unordered_map<int, Product> &products)
+{
+    for (const auto & pair : products)
+    {
+        if(pair.second.GetName() == name)
+            return true;
+    }
+    return false;
+}
 int helper::GetCategoryIdByName(const string &name, const unordered_map<int, Category> &categories)
 {
     for (const auto & pair : categories)
@@ -109,4 +152,14 @@ int helper::GetCategoryIdByName(const string &name, const unordered_map<int, Cat
             return pair.first;
     }
     throw runtime_error("category was not found try again");
+}
+
+bool helper::DoesCategoryExist(const string &name, const unordered_map<int, Category> &categories)
+{
+    for (const auto & pair : categories)
+    {
+        if(pair.second.GetCategoryName() == name)
+            return true;
+    }
+    return false;
 }

@@ -1,7 +1,5 @@
 #include "classes/BST_analytics/SalesBST.h"
 
-
-
 #pragma region helpers
 
 vector<int> SalesBST::DFS_inorder(Node* current) const

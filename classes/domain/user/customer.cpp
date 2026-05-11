@@ -1,6 +1,4 @@
-#include <string>
 #include "classes/domain/user/customer.h"
-#include "customer.h"
 
 double Customer::ValidateBudget(double budget)
 {

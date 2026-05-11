@@ -1,5 +1,4 @@
 #include "classes/BST_analytics/Analyzer.h"
-#include "Analyzer.h"
 
 void Analyzer::BuildSalesTree(const unordered_map<int, int> &sales_map)
 {

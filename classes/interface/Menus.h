@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include <iomanip>
+#include <utility>
 
 #include "classes/domain/Product.h"
 #include "classes/domain/Category.h"
@@ -33,15 +34,17 @@ public:
     // customer
     
     void ShowCustomerMenu(const Customer& customer);
-    void ShowProductsOptions();
+    void ShowCustomerOptions();
     
 
     // manager
     void ShowMangerMenu(const vector<Product>& low_stock_products);
 
-    void ShowProductsMenu();
+    void ShowManagerProductsOptionsMenu();
     void ShowCategoriesMenu();
     void ShowAnalyticsMenu();
+
+    void ShowSales(const vector < pair <Product , int> > sales); // product and amount
 
 };
 
