@@ -7,7 +7,7 @@ Expected Graduation: 2029
 
 ## Overview
 
-A console-based supermarket management system implemented in C++ using layered architecture principles.
+A console-based supermarket simulation system implemented in C++ using layered architecture principles.
 
 The project focuses on clean separation of responsibility between system layers and selecting data structures based on time complexity requirements.
 
@@ -33,11 +33,12 @@ store/ → inventory and checkout orchestration
 
 interface/ → console menus and navigation
 
+Program/ → orchestrate between every layer inside the main loop and subloops
 ---
 
 ## Features
 
-Inventory management using unordered_map for O(1) lookup
+Inventory management using unordered_map for avarage O(1) lookup
 
 Category-based restocking thresholds
 
@@ -83,14 +84,4 @@ modular system architecture suitable for extension
 
 ## Project Status
 
-Completed:
-
-Domain layer
-
-Persistence layer
-
-Analytics layer (BST ranking engine)
-
-Currently working on:
-
-Store orchestration layer and checkout workflow
+Completed.
