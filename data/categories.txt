@@ -1,2 +1,3 @@
+3 meats 7 30 5
 1 dairy 10 100 5
 2 test2 23 3 1
