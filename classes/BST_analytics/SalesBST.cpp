@@ -1,4 +1,4 @@
-#include "classes/BST_analytics/SalesBST.h"
+#include "../BST_analytics/SalesBST.h"
 
 #pragma region helpers
 
@@ -69,12 +69,12 @@ vector<int> SalesBST::NthMostSoldHelper(Node* current, int n) const
 int SalesBST::GetMostSoldIdHelper(Node * current) const
 {
     if (current == nullptr)
-            throw runtime_error("subtree is empty");
+        throw runtime_error("subtree is empty");
 
-        while (current->right != nullptr)
-            current = current->right;
+    while (current->right != nullptr)
+        current = current->right;
 
-        return current->ProductId;
+    return current->ProductId;
 }
 
 int SalesBST::GetLeastSoldIdHelper(Node *current) const
@@ -136,8 +136,11 @@ void SalesBST::Clear(Node *current) // with recursion
 
 #pragma region logic
 
-void SalesBST::BuildTree(const unordered_map<int, int> &sales_map)
+void SalesBST::BuildTree(const unordered_map<int , int> & sales_map)
 {
+    Clear(Root);
+    Root = nullptr;
+
     for (const auto & pair : sales_map)
     {
         Insert(pair.first , pair.second);

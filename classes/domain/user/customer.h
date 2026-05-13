@@ -3,8 +3,8 @@
 
 
 #include <string>
-#include "classes/store/Cart.h"
-#include "classes/domain/user/User.h"
+#include "../../store/Cart.h"
+#include "User.h"
 #include <stdexcept>
 using namespace std;
 
@@ -19,7 +19,9 @@ public :
     Customer(int id , double budget);
 
     double GetBudget() const;
-    Cart & GetCart() const;
+    void DeductFromBudget(double cart_total) ;
+    Cart & GetCart();
+    const Cart& GetCart() const;
 };
 
 #endif 

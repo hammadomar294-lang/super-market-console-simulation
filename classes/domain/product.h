@@ -1,5 +1,5 @@
 #include <string>
-#include "Category.h"
+#include "../domain/Category.h"
 #include <stdexcept>
 using namespace std;
 

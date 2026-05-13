@@ -4,7 +4,7 @@
 
 #include <string>
 #include <stdexcept>
-#include "classes/domain/Product.h"
+#include "../domain/Product.h"
 using namespace std;
 
 class CartItem
@@ -15,7 +15,7 @@ private:
     // if failed throws invalid argument
     static int isValidAmount(int amount);
 public:
-    CartItem(const Product &product , int amount , bool operation);
+    CartItem(const Product &product , int amount);
 
     const Product &GetProduct() const;
     int GetAmount() const;

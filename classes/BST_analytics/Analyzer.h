@@ -4,9 +4,9 @@
 #include <unordered_map>
 #include <iostream>
 #include <stdexcept>
-#include "classes/BST_analytics/PriceBST.h"
-#include "classes/BST_analytics/SalesBST.h"
-#include "classes/domain/Product.h"
+#include "../BST_analytics/PriceBST.h"
+#include "../BST_analytics/SalesBST.h"
+#include "../domain/Product.h"
 using namespace std;
 
 
@@ -16,9 +16,11 @@ class Analyzer
 private:
     SalesBST SalesTree;
     PriceBST PricesTree;
-    static void BuildSalesTree(const unordered_map <int , int> & sales_map);
-    static void BuildPricesTree(const unordered_map <int , Product> & prices_map);
+    
 public:
+
+    void BuildSalesTree(const unordered_map <int , int> & sales_map);
+    void BuildPricesTree(const unordered_map <int , Product> & prices_map);
 
     Analyzer(const unordered_map <int , int> & sales_map , const unordered_map <int , Product> & prices_map);
 

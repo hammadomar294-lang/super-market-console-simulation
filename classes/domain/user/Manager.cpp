@@ -1,4 +1,4 @@
-#include "classes/domain/user/Manager.h"
+#include "Manager.h"
 
 int Manager::validateID(int id)
 {
@@ -30,7 +30,7 @@ Manager::Manager(int  id,const string& name ,const string & password)
 
 {}
 
-string Manager::GetName() const
+const string & Manager::GetName() const
 {
     return Name;
 }

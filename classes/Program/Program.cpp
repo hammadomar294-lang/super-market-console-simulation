@@ -1,4 +1,4 @@
-#include "classes/Program/Program.h"
+#include "Program.h"
 
 
 void Program::Run()
@@ -43,7 +43,7 @@ void Program::HandleCustomerSession()
     int choice;
 
     Customer customer{1,budget};
-
+    StartCustomerSession();
     try
     {
         while (true)
@@ -54,7 +54,7 @@ void Program::HandleCustomerSession()
             {
                 case 1:
                 {
-                    HandleShowProducts(customer);
+                    HandleProducts(customer);
                     break;
                 }
                 case 2:
@@ -99,6 +99,7 @@ void Program::HandleCustomerSession()
                 }
                 case 10:
                 {
+                    EndCustomerSession();
                     return;
                 }
                 default:
@@ -119,6 +120,20 @@ void Program::HandleCustomerSession()
     
 }
 
+void Program::StartCustomerSession()
+{
+    store.analyzer.BuildPricesTree(store.inventory.GetProductMap());
+}
+
+void Program::EndCustomerSession()
+{
+    PersistenceData::SaveProducts(store.inventory.GetProductMap());
+
+    PersistenceData::SaveSales(store.inventory.GetSalesMap());
+
+    store.analyzer.BuildSalesTree(store.inventory.GetSalesMap());
+}
+
 bool Program::Login()
 {
     pair<string , string> manager_data =  PersistenceData::LoadManagerData();
@@ -134,7 +149,7 @@ bool Program::Login()
     return true;
 }
 
-void Program::HandleProductsMenu()
+void Program::HandleProductsMenu() // for manager
 {
     int choice;
         while (true)
@@ -148,6 +163,7 @@ void Program::HandleProductsMenu()
                 case 1:
                 {
                     menus.ShowProducts(store.inventory.GetProductMap()); // it has pause inside
+                    helper::Pause();
                     break;
                 }
                 // add product
@@ -165,7 +181,7 @@ void Program::HandleProductsMenu()
                             break;
                         }
 
-                        string category_name = helper::AskForString("Enter category name name");
+                        string category_name = helper::AskForString("Enter category name");
                         int category_id = helper::GetCategoryIdByName(category_name , store.inventory.GetCategoryMap());
 
                         double price = helper::AskForDouble("Enter product price");
@@ -201,11 +217,11 @@ void Program::HandleProductsMenu()
                             break;
                         }
 
-                        int product_id = helper::GetProductIdByName(name);
+                        int product_id = helper::GetProductIdByName(name , store.inventory.GetProductMap());
                         store.inventory.RemoveProduct(product_id);
 
                         cout<<"product removed successfully"<<endl;
-                        helper::Pause()
+                        helper::Pause();
                         break;
                     }
                     catch(const std::exception& e)
@@ -269,6 +285,7 @@ void Program::HandleProductsMenu()
                         double new_price = helper::AskForDouble("Enter new price");
 
                         store.inventory.ChangePrice(product_id , new_price);
+                        
                         cout<<"Price changed successfully"<<endl;
                         helper::Pause();
 
@@ -339,6 +356,7 @@ void Program::HandleCategoriesMenu()
             case 1:
             {
                 menus.ShowCategories(store.inventory.GetCategoryMap());
+                helper::Pause();
                 break;
             }
             // add category
@@ -487,10 +505,9 @@ void Program::HandleAnalyticsMenu()
                 try
                 {
                     const Product& product = store.MostSold();
+                    int units = store.inventory.GetSalesMap().at(product.GetId());
 
-                    cout << product.GetName() << " "
-                         << product.GetSalesPrice() << " EGP "
-                         << product.GetQuantity() << " Unit" << endl;
+                    cout << product.GetName() << " " << units << " Sold Units" <<endl;
 
                     helper::Pause();
 
@@ -511,11 +528,9 @@ void Program::HandleAnalyticsMenu()
                 try
                 {
                     const Product& product = store.LeastSold();
+                    int units = store.inventory.GetSalesMap().at(product.GetId());
 
-                    cout << product.GetName() << " "
-                         << product.GetSalesPrice() << " EGP "
-                         << product.GetQuantity() << " Unit" << endl;
-
+                    cout << product.GetName() << " " << units << " Units sold" <<endl;
                     helper::Pause();
 
                     break;
@@ -598,6 +613,8 @@ void Program::HandleManagerSession()
         return;
     }
 
+    StartManagerSession();
+
     int choice;
 
     try
@@ -626,6 +643,7 @@ void Program::HandleManagerSession()
                 }
                 case 4:
                 {
+                    EndManagerSession();
                     return;
                 }
                 default:
@@ -644,12 +662,23 @@ void Program::HandleManagerSession()
     }
 }
 
+void Program::StartManagerSession()
+{
+    store.analyzer.BuildSalesTree(store.inventory.GetSalesMap());
+}
+
+void Program::EndManagerSession()
+{
+    PersistenceData::SaveProducts(store.inventory.GetProductMap());
+
+    PersistenceData::SaveCategories(store.inventory.GetCategoryMap());
+
+    store.analyzer.BuildPricesTree(store.inventory.GetProductMap());
+}
+
 void Program::HandleProducts(Customer& customer)
 {
-    menus.ShowProducts(store.inventory.GetProductMap());
-
-    vector<int>& ids_vector =
-        menus.GetDisplayedIds();
+    vector<int> ids_vector = menus.ShowProducts(store.inventory.GetProductMap());
 
     cout << "0. Back" << endl << endl;
 
@@ -690,13 +719,13 @@ void Program::HandleProducts(Customer& customer)
             cout << "Added successfully"
                  << endl;
 
-            helper::Wait();
+            helper::Pause();
         }
         catch (const exception& e)
         {
             cout << e.what() << endl;
 
-            helper::Wait();
+            helper::Pause();
         }
     }
 }
@@ -868,6 +897,7 @@ void Program::HandleProductsByCategory(Customer& customer)
 
 void Program::HandleProductsWithinRange(Customer& customer)
 {
+    menus.ShowProducts(store.inventory.GetProductMap());
     try
     {
         double low = helper::AskForDouble("Enter low price");
@@ -930,9 +960,12 @@ void Program::Undo(Customer& customer)
 {
     try
     {
-        store.Undo(customer);
+        bool result = customer.GetCart().UndoLastItem();
 
-        cout << "Undo successful" << endl;
+        if (result)
+            cout << "Undo successful" << endl;
+        else 
+            cout << "nothing to undo" <<endl;
 
         helper::Pause();
     }
@@ -948,9 +981,12 @@ void Program::Redo(Customer& customer)
 {
     try
     {
-        store.Redo(customer);
+        bool result = customer.GetCart().RedoLastItem();
 
-        cout << "Redo successful" << endl;
+        if (result)
+            cout << "Redo successful" << endl;
+        else 
+            cout << "nothing to redo" <<endl;
 
         helper::Pause();
     }
@@ -965,8 +1001,10 @@ void Program::Redo(Customer& customer)
 void Program::ClearCart(Customer& customer)
 {
     store.ClearCart(customer);
-
-    cout << "Cart cleared successfully" << endl;
+    if (!customer.GetCart().Empty())
+        cout << "Cart cleared successfully" << endl;
+    else    
+        cout<< "cart is empty"<<endl;
 
     helper::Pause();
 }

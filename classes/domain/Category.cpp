@@ -1,4 +1,4 @@
-#include "classes/domain/Category.h"
+#include "../domain/Category.h"
 
 int Category::NextId = 1;
 

@@ -7,10 +7,11 @@
 #include <vector>
 
 
-#include "classes/store/Store.h"
-#include "classes/interface/Menus.h"
-#include "classes/domain/user/Manager.h"
-#include "classes/domain/user/Customer.h"
+#include "../store/Store.h"
+#include "../interface/Menus.h"
+#include "../domain/user/Manager.h"
+#include "../domain/user/customer.h"
+#include "../persistence/PersistenceData.h"
 
 class Program
 {
@@ -27,12 +28,17 @@ private:
     // main sessions
     void HandleCustomerSession();
     void HandleManagerSession();
+    void StartCustomerSession();
+    void EndCustomerSession();
+    
     
     // manager 
     bool Login();
     void HandleProductsMenu();
     void HandleCategoriesMenu();
     void HandleAnalyticsMenu();
+    void StartManagerSession();
+    void EndManagerSession();
 
     // customer 
     void HandleProducts(Customer& customer); // all shows the product in inventory but take customer for it's cart

@@ -1,4 +1,4 @@
-#include "classes/domain/Product.h"
+#include "../domain/Product.h"
 
 using namespace std;
 
@@ -77,22 +77,20 @@ void Product::SetQuantity(int quantity)
 
 // constructors
 // new product constructor
-Product::Product (const string &name, double price, int quantity , Category& category)
+Product::Product (const string &name, double price, int quantity , const Category& category) : category(category)
 {
     Id = NextId++;
     Name = ValidateName(name);
     Price = ValidatePrice(price);
     Quantity = ValidateQuantity(quantity);
-    Category = category;
 }
 // existing product constructor
-Product::Product (int id ,const string &name, double price, int quantity , Category& category)
+Product::Product (int id ,const string &name, double price, int quantity , const Category& category) : category(category)
 {
     Id = ValidateId(id);
     Name = ValidateName(name);
     Price = ValidatePrice(price);
     Quantity = ValidateQuantity(quantity);
-    Category = category;
 }
 
 #pragma region helpers
@@ -142,14 +140,18 @@ void Product::ReName(const string &new_name)
 
 void Product::AddStock(int quantity)
 {
-    if (quantity <= 0 || quantity > category.GetMaxAmount() - Quantity)
+    if (quantity <= 0 )
         throw runtime_error("invalid amount");
-    Quantity += quantity
+
+    if (quantity > category.GetMaxAmount() - Quantity)
+        throw runtime_error("can't exceed max amount");
+
+    Quantity += quantity;
 }
 
 double Product::GetSalesPrice() const
 {
-    return Price * category.GetTax() / 100.0;
+    return Price + (Price * category.GetTax() / 100.0);
 }
 
 const Category &Product::GetCategory() const

@@ -5,10 +5,11 @@
 #include <fstream>
 #include <stdexcept>
 #include <unordered_map>
+#include <iostream>
 
-#include "classes/domain/Category.h"
-#include "classes/domain/Product.h"
-#include "classes/domain/Sales.h"
+#include "../domain/Category.h"
+#include "../domain/Product.h"
+
 using namespace std;
 
 
@@ -31,8 +32,8 @@ public:
     static void SaveCategories(const unordered_map<int , Category> & categories);
 
     // TODO: load and save history order
-    static unordered_map<int , sales> LoadSales();
-    static void SaveSales(const unordered_map<int , Sales> & sales);
+    static unordered_map<int , int> LoadSales();
+    static void SaveSales(const unordered_map<int , int> & sales);
 }; 
 
 #endif

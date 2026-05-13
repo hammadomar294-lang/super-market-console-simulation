@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <iostream>
 #include <stdexcept>
+#include "../domain/Product.h"
 using namespace std;
 
 
@@ -39,7 +40,7 @@ private:
 
     };
 
-    Node * Root;
+    Node * Root = nullptr;
 
     void Insert(int id , int amount);
     void Clear(Node * current);

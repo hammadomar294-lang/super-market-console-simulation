@@ -4,7 +4,7 @@
 
 #include <vector>
 #include <string>
-#include "classes/domain/CartItem.h"
+#include "../domain/Action.h"
 #include <stack>
 
 using namespace std;
@@ -12,19 +12,7 @@ using namespace std;
 class Cart
 {
 private:
-
-
-    struct Action
-    {
-        CartItem Item;
-        bool Operation;
-
-        Action(const CartItem &item , bool operation)
-        {
-            Item = item;
-            Operation = operation;
-        }
-    };
+    
 
     Action MakeAction(const CartItem &item , bool operation);
     

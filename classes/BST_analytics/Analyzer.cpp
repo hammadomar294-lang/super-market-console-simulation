@@ -1,4 +1,4 @@
-#include "classes/BST_analytics/Analyzer.h"
+#include "../BST_analytics/Analyzer.h"
 
 void Analyzer::BuildSalesTree(const unordered_map<int, int> &sales_map)
 {
@@ -41,7 +41,7 @@ int Analyzer::GetLeastSoldId() const
     return SalesTree.GetLeastSoldId();
 }
 
-vector<int> Analyzer::GetAscending_Price_Ids() const
+vector<int>  Analyzer::GetAscending_Price_Ids() const
 {
     return PricesTree.GetAscendingIds();
 }
@@ -53,7 +53,7 @@ vector<int> Analyzer::GetDescending_Price_Ids() const
 
 vector<int> Analyzer::GetPrice_IdsWithinRange(double low, double high) const
 {
-    return vector<int>();
+    return PricesTree.GetIdsWithinRange(low , high);
 }
 
 int Analyzer::GetMostExpensiveId() const

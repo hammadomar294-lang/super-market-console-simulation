@@ -6,7 +6,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <utility>
-#include "classes/domain/Product.h
+#include "../domain/Product.h"
 using namespace std;
 
 
@@ -40,7 +40,7 @@ private:
         {}
     };
 
-    Node * Root;
+    Node * Root = nullptr;
 
     void Insert(int id , double price);
     void Clear(Node * current);
@@ -53,7 +53,7 @@ private:
 
     vector <int> GetNthExpensiveHelper(Node * current , int n) const;
     vector <int> GetNthCheapestHelper(Node * current , int n) const;
-    vector <int> GetIdsWithinRangeHelper(Node * current , double low , double high , vector<int> ids) const;
+    void GetIdsWithinRangeHelper(Node *current, double low, double high , vector<int> & ids) const;
     
 public:
 

@@ -8,9 +8,9 @@
 #include <limits>
 
 
-#include "classes/domain/Product.h"
-#include "classes/domain/Category.h"
-#include "classes/domain/CartItem.h"
+#include "../domain/Product.h"
+#include "../domain/Category.h"
+#include "../domain/CartItem.h"
 
 using namespace std;
 

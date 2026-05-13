@@ -3,10 +3,11 @@
 
 #include <string>
 #include <unordered_map>
+#include <vector>
 
-#include "classes/domain/Product.h"
-#include "classes/domain/Category.h"
-#include "classes/persistence/PersistenceData.h"
+#include "../domain/Product.h"
+#include "../domain/Category.h"
+#include "../persistence/PersistenceData.h"
 
 using namespace std;    
 
@@ -29,13 +30,14 @@ public:
     bool HasProduct(int product_id) const;
     Product & GetProduct(int product_id);
     const Product & GetProduct(int product_id) const;
+    
 
     vector <Product> GetLowStockProducts() const; // the quantity of that low stock products in store class
 
 
     void RestockProduct(int product_id , int amount);
     void DecreaseStock(int product_id , int amount);
-    void ChangePrice(int product_id , double new_price)
+    void ChangePrice(int product_id , double new_price);
 
 
     void AddProduct(const Product& product);

@@ -7,10 +7,10 @@
 #include <iomanip>
 #include <utility>
 
-#include "classes/domain/Product.h"
-#include "classes/domain/Category.h"
-#include "classes/domain/user/customer.h"
-#include "classes/helper/helper.h"
+#include "../domain/Product.h"
+#include "../domain/Category.h"
+#include "../domain/user/customer.h"
+#include "../helper/helper.h"
 
 using namespace std;
 
@@ -28,23 +28,22 @@ public:
     void ShowMainMenu();
 
     // both
-    void ShowProducts(const unordered_map<int , Product> & products);
-    void ShowProducts(const vector< Product> & products);
+    vector <int> ShowProducts(const unordered_map<int , Product> & products);
+    vector <int> ShowProducts(const vector< Product> & products);
 
     // customer
     
     void ShowCustomerMenu(const Customer& customer);
-    void ShowCustomerOptions();
-    
 
     // manager
     void ShowMangerMenu(const vector<Product>& low_stock_products);
 
+    void ShowCategories(const unordered_map<int , Category> & categories);
     void ShowManagerProductsOptionsMenu();
     void ShowCategoriesMenu();
     void ShowAnalyticsMenu();
 
-    void ShowSales(const vector < pair <Product , int> > sales); // product and amount
+    void ShowSales(const vector<pair<Product, int>> & sales); // product and amount
 
 };
 

@@ -1,4 +1,4 @@
-#include "PriceBST.h"
+#include "../BST_analytics/PriceBST.h"
 
 #pragma region helpers
 
@@ -150,26 +150,25 @@ vector<int> PriceBST::GetNthCheapestHelper(Node *current, int n) const
     return result;
 }
 
-vector<int> PriceBST::GetIdsWithinRangeHelper(Node *current, double low, double high , vector<int> ids) const
+void PriceBST::GetIdsWithinRangeHelper(Node* current,
+                                       double low,
+                                       double high,
+                                       vector<int>& ids) const
 {
-    if (Root == nullptr)
+    if (current == nullptr)
         return;
 
-    if (node->price > low)
-        GetIdsWithinRangeHelper(node->left, low, high, ids);
+    if (current->Price > low)
+        GetIdsWithinRangeHelper(current->left, low, high, ids);
 
-    if (node->price >= low && node->price <= high)
+    if (current->Price >= low && current->Price <= high)
     {
-        for (const auto& id : node->ids)
-        {
-            ids.push_back(id);
-        }
+        ids.push_back(current->ProductId);
     }
 
-    if (node->price < high)
-        GetIdsWithinRangeHelper(node->right, low, high, ids);
+    if (current->Price < high)
+        GetIdsWithinRangeHelper(current->right, low, high, ids);
 }
-
 bool PriceBST::IsEmpty() const
 {
     return Root == nullptr;
@@ -203,7 +202,7 @@ vector<int> PriceBST::GetIdsWithinRange(double low, double high) const
 {
     vector<int> ids;
 
-    GetIdsWithinRangeHelper(root, low, high, ids);
+    GetIdsWithinRangeHelper(Root, low, high, ids);
 
     return ids;
 }

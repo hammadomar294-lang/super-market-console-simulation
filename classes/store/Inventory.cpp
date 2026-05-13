@@ -1,4 +1,5 @@
-#include "classes/store/Inventory.h"
+#include "../store/Inventory.h"
+#include "Inventory.h"
 
 const unordered_map<int, Product> &Inventory::GetProductMap() const
 {
@@ -23,7 +24,7 @@ bool Inventory::HasProduct(int product_id) const
 Product &Inventory::GetProduct(int product_id) 
 {
     if (HasProduct(product_id))
-        return ProductMap[product_id];
+        return ProductMap.at(product_id);
     else
         throw runtime_error("Product doesn't exist");
     
@@ -32,10 +33,11 @@ Product &Inventory::GetProduct(int product_id)
 const Product &Inventory::GetProduct(int product_id) const
 {
     if (HasProduct(product_id))
-        return ProductMap[product_id];
+        return ProductMap.at(product_id);
     else
         throw runtime_error("Product doesn't exist");
 }
+
 
 void Inventory::RestockProduct(int product_id, int amount)
 {
@@ -61,9 +63,9 @@ vector <Product> Inventory::GetLowStockProducts() const
 void Inventory::AddProduct(const Product &product)
 {
     if (HasProduct(product.GetId()))
-        throw runtime_error("product allready exist");
-    
-    ProductMap[product.GetId()] = product;
+        throw runtime_error("product allready exist"); 
+
+    ProductMap.emplace(product.GetId() , product) ;
 }
 
 void Inventory::RemoveProduct(int id)
@@ -84,9 +86,11 @@ void Inventory::RenameProduct(int id, const string &new_name)
 void Inventory::ChangePrice(int product_id , double new_price)
 {
     if (HasProduct(product_id))
-        ProductMap[product_id].SetPrice(new_price);
-
-    throw runtime_error("Product does not exist");
+        ProductMap.at(product_id).SetPrice(new_price);
+    
+    else
+        throw runtime_error("Product does not exist");
+    
 }
 
 bool Inventory::HasCategory(int category_id) const
@@ -97,7 +101,7 @@ bool Inventory::HasCategory(int category_id) const
 Category &Inventory::GetCategory(int category_id)
 {
     if (HasCategory(category_id))
-        return CategoryMap[category_id];
+        return CategoryMap.at(category_id);
     else
         throw runtime_error("category does not exist");
 }
@@ -108,11 +112,18 @@ void Inventory::RestockCategory(int category_id)
         throw runtime_error("category does not exist");
 
     int quantity = GetCategory(category_id).GetMaxAmount();
+    int counter = 0 ;
     for (auto & pair : ProductMap)
     {
         if (pair.second.GetCategory().GetCategoryId() == category_id)
         {
-            pair.second.SetQuantity(quantity);
+            if (pair.second.GetQuantity() < pair.second.GetCategory().GetMaxAmount())
+            {
+                pair.second.SetQuantity(quantity);
+                counter++;
+            }
+            else if (counter == 0)
+                throw runtime_error("category allready stocked");
         }
     }
 }
@@ -122,7 +133,7 @@ void Inventory::AddCategory(const Category &category)
     if (HasCategory(category.GetCategoryId()))
         throw runtime_error("category allready exist");
 
-    CategoryMap[category.GetCategoryId()] = category;
+    CategoryMap.emplace(category.GetCategoryId() , category);
 }
 
 void Inventory::RemoveCategory(int category_id)
@@ -155,7 +166,7 @@ unordered_map<int, Product> Inventory::GetProductMapByCategoryId(int category_id
     for (const auto & pair : ProductMap)
     {
         if (pair.second.GetCategory().GetCategoryId() == category_id)
-            products[pair.first] = pair.second;
+            products.emplace(pair.first , pair.second) ;
     }
     return products;
 }

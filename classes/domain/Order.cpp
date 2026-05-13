@@ -1,4 +1,4 @@
-#include "classes/domain/Order.h"
+#include "../domain/Order.h"
 
 using namespace std;
 
@@ -21,7 +21,7 @@ Order::Order(const vector<CartItem> &items) : Items(ValidateItems(items)) ,
                                                             Total(CalculateTotal(items))
 {
 }
-const double Order::GetTotal() const
+double Order::GetTotal() const
 {
     return Total;
 }

@@ -1,4 +1,4 @@
-#include "classes/domain/CartItem.h"
+#include "../domain/CartItem.h"
 
 using namespace std;
 
@@ -8,7 +8,7 @@ int CartItem::isValidAmount(int amount)
     return amount;
 }
 
-CartItem::CartItem(const Product &product, int amount , bool operation) : product(product),
+CartItem::CartItem(const Product &product, int amount) : product(product),
                                                          Amount(isValidAmount(amount)) 
 {
 }

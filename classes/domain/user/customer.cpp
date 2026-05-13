@@ -1,4 +1,4 @@
-#include "classes/domain/user/customer.h"
+#include "customer.h"
 
 double Customer::ValidateBudget(double budget)
 {
@@ -15,7 +15,17 @@ double Customer::GetBudget() const
     return Budget;
 }
 
-Cart &Customer::GetCart() const
+void Customer::DeductFromBudget(double cart_total)
+{
+    Budget -= cart_total;
+}
+
+Cart &Customer::GetCart() 
+{
+    return cart;
+}
+
+const Cart& Customer::GetCart() const
 {
     return cart;
 }

@@ -1,4 +1,5 @@
-#include "classes/interface/Menus.h"
+#include "../interface/Menus.h"
+#include "Menus.h"
 
 
 void Menus::ShowMainMenu()
@@ -21,29 +22,32 @@ void Menus::ShowMainMenu()
 }
 
 // both manager and customer
-void Menus::ShowProducts(const vector<Product>& products)
+vector<int> Menus::ShowProducts(const vector<Product>& products)
 {
-    helper::ClearScreen();
-
-    cout << "\n\n";
     helper::PrintLine();
+
+    vector<int> ids_vector;
 
     for (int i = 0; i < products.size(); i += 2)
     {
+        ids_vector.push_back(products[i].GetId());
+
         string first =
             to_string(i + 1) + ". " +
             products[i].GetName() + " " +
-            to_string((int)products[i].GetSalesPrice()) + " EGP " +
+            to_string((int)products[i].GetPrice()) + " EGP " +
             to_string(products[i].GetQuantity()) + " Unit";
 
-        cout << left << setw(20) << first;
+        cout << left << setw(40) << first;
 
         if (i + 1 < products.size())
         {
+            ids_vector.push_back(products[i + 1].GetId());
+
             string second =
                 to_string(i + 2) + ". " +
                 products[i + 1].GetName() + " " +
-                to_string((int)products[i + 1].GetSalesPrice()) + " EGP " +
+                to_string((int)products[i + 1].GetPrice()) + " EGP " +
                 to_string(products[i + 1].GetQuantity()) + " Unit";
 
             cout << second;
@@ -53,7 +57,8 @@ void Menus::ShowProducts(const vector<Product>& products)
     }
 
     helper::PrintLine();
-    helper::GoBack();
+    
+    return ids_vector;
 }
 
 vector<int> Menus::ShowProducts(const unordered_map<int, Product>& products)
@@ -76,7 +81,7 @@ vector<int> Menus::ShowProducts(const unordered_map<int, Product>& products)
         string text =
             to_string(count) + ". " +
             pair.second.GetName() + " " +
-            to_string((int)pair.second.GetSalesPrice()) + " EGP " +
+            to_string((int)pair.second.GetPrice()) + " EGP " +
             to_string(pair.second.GetQuantity()) + " Unit";
 
         cout << left << setw(45) << text;
@@ -92,8 +97,8 @@ vector<int> Menus::ShowProducts(const unordered_map<int, Product>& products)
     if (!second_column)
         cout << "\n\n";
 
+    cout<<"\n";
     helper::PrintLine();
-    helper::GoBack();
     return displayed_ids;
 }
 
@@ -102,8 +107,7 @@ void Menus::ShowCartItems(const Customer& customer)
 {
     helper::ClearScreen();
 
-    cout << "\n\n";
-    cout << "Cart Items\n\n";
+    cout << "\n";
 
     const auto& items = customer.GetCart().GetItemsVector();
 
@@ -128,8 +132,6 @@ void Menus::ShowCartItems(const Customer& customer)
 
     cout << "\n";
 
-    helper::PrintLine();
-
     cout << "Total = "
          << customer.GetCart().GetTotalPrice()
          << " EGP\n\n";
@@ -137,22 +139,16 @@ void Menus::ShowCartItems(const Customer& customer)
 
 void Menus::ShowCustomerHeader(const Customer& customer)
 {
-    cout << "========================================\n";
-    cout << "            Customer Menu\n";
-    cout << "========================================\n\n";
 
     cout << "Budget: "
          << customer.GetBudget()
          << " EGP\n\n";
 
     cout << "Cart:\n";
+    helper::PrintLine();
     ShowCartItems(customer);
 
-    cout << "\n\n";
-
-    cout << "Total = "
-         << customer.GetCart().GetTotalPrice()
-         << " EGP\n\n";
+    cout << "\n";
 
     helper::PrintLine();
 }
@@ -182,13 +178,6 @@ void Menus::ShowCustomerMenu(const Customer& customer)
     ShowCustomerHeader(customer);
 
     ShowCustomerOptions();
-}
-
-void Menus::ShowCustomerOptions()
-{
-    cout << "Choose product number: \n\n";
-    cout << "0. Back\n";
-    helper::PrintLine();
 }
 
 // manager
@@ -260,7 +249,48 @@ void Menus::ShowMangerMenu(const vector<Product> &low_stock_products)
     cout << "Choice: ";
 }
 
-void Menus::ShowManagerProductsOptionsMenu()
+void Menus::ShowCategories(const unordered_map<int, Category>& categories)
+{
+    helper::PrintLine();
+    cout<<"\n\n";
+
+    vector<Category> categories_vector;
+
+    for (const auto& pair : categories)
+    {
+        categories_vector.push_back(pair.second);
+    }
+
+    sort(categories_vector.begin(), categories_vector.end(),
+    [](const Category& a, const Category& b)
+    {
+        return a.GetCategoryId() < b.GetCategoryId();
+    });
+
+    for (int i = 0; i < categories_vector.size(); i += 2)
+    {
+        string first =
+            to_string(i + 1) + ". " +
+            categories_vector[i].GetCategoryName() ;
+
+        cout << left << setw(25) << first;
+
+        if (i + 1 < categories_vector.size())
+        {
+            string second =
+                to_string(i + 2) + ". " +
+                categories_vector[i + 1].GetCategoryName();
+
+            cout << second;
+        }
+
+        cout << "\n\n";
+    }
+
+    helper::PrintLine();
+}
+
+void Menus::ShowManagerProductsOptionsMenu() 
 {
     helper::ClearScreen();
 
@@ -277,8 +307,6 @@ void Menus::ShowManagerProductsOptionsMenu()
     cout << "7. Back\n";
 
     helper::PrintLine();
-
-    cout << "Choice: ";
 }
 
 void Menus::ShowCategoriesMenu()

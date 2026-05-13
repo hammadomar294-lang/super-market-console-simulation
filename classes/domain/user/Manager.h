@@ -3,7 +3,7 @@
 
 #include <string>
 #include <stdexcept>
-#include "classes/domain/user/User.h"   
+#include "User.h"
 
 using namespace std;
 

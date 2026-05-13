@@ -1,15 +1,19 @@
-#include "classes/store/Store.h"
+#include "../store/Store.h"
+#include "Store.h"
 
 
-Store::Store() = default; // becaus members constructors run automaticly and trees are built presession
+ // becaus members constructors run automaticly and trees are built presession
 
-void Store::AddToCart(Customer &customer, int product_id, int amount)
+Store::Store() : analyzer(inventory.GetSalesMap() , inventory.GetProductMap())
+{}
+
+ void Store::AddToCart(Customer &customer, int product_id, int amount)
 {
     Product &product = inventory.GetProduct(product_id);
     if (!product.isSufficient(amount))
         throw runtime_error("Not enough stock");
 
-    if (product.GetSalesPrice(amount) > customer.GetBudget())
+    if (product.GetSalesPrice() * amount > customer.GetBudget())
         throw runtime_error("Customer cannot afford this product");
 
     customer.GetCart().AddProduct(product , amount);
@@ -34,6 +38,8 @@ Order Store::CheckOut(Customer &customer)
         inventory.AddSale(item.GetProductId() , item.GetAmount());
     }
     
+    customer.DeductFromBudget(customer.GetCart().GetTotalPrice());
+
     customer.GetCart().Clear();
 
     return order;
@@ -41,7 +47,7 @@ Order Store::CheckOut(Customer &customer)
 
 vector<Product> Store::GetProductsAscending() const
 {
-    auto & prices_Ids = analyzer.GetAscending_Price_Ids();   
+    auto  prices_Ids = analyzer.GetAscending_Price_Ids();   
     vector <Product> products;
     for (const auto & id : prices_Ids)
     {
@@ -52,7 +58,7 @@ vector<Product> Store::GetProductsAscending() const
 
 vector<Product> Store::GetProductsDescending() const
 {
-    auto & prices_Ids = analyzer.GetDescending_Price_Ids();   
+    auto  prices_Ids = analyzer.GetDescending_Price_Ids();   
     vector <Product> products;
     for (const auto & id : prices_Ids)
     {
@@ -63,7 +69,7 @@ vector<Product> Store::GetProductsDescending() const
 
 vector<Product> Store::GetProductsByCategory(int category_id)
 {
-    auto & products_map = inventory.GetProductMap();
+    auto  products_map = inventory.GetProductMap();
     vector <Product> products;
     for (const auto & pair : products_map)
     {
@@ -75,7 +81,7 @@ vector<Product> Store::GetProductsByCategory(int category_id)
 
 vector<Product> Store::GetProductsWithinRange(double low, double high)
 {
-    auto & prices_Ids = analyzer.GetPrice_IdsWithinRange(low , high);
+    vector <int> prices_Ids = analyzer.GetPrice_IdsWithinRange(low , high);
     vector <Product> products;
     for (const auto & id : prices_Ids)
     {
@@ -151,13 +157,13 @@ void Store::ReStockCategory(int category_id)
     inventory.RestockCategory(category_id);
 }
 
-Product Store::MostSold() const
+const Product & Store::MostSold() const
 {
     int id = analyzer.GetMostSoldId();
     return inventory.GetProduct(id);
 }
 
-const Product &Store::LeastSold() const
+const Product & Store::LeastSold() const
 {
     int id = analyzer.GetLeastSoldId();
     return inventory.GetProduct(id);
@@ -167,11 +173,10 @@ const Product &Store::LeastSold() const
 {
     vector <int> ids = analyzer.GetAscending_Sales_Ids();
     vector < pair<Product , int> >  sales;
-    pair<Product , int> temp;
+    
     for (const auto & id : ids)
     {   
-        temp.first = inventory.GetProduct(id);
-        temp.second = inventory.GetSalesMap().at(id);
+        pair<Product , int> temp{inventory.GetProduct(id) , inventory.GetSalesMap().at(id)};
         sales.push_back(temp);
     } 
     return sales;
@@ -181,11 +186,10 @@ const Product &Store::LeastSold() const
 {
     vector <int> ids = analyzer.GetDescending_Sales_Ids();
     vector < pair<Product , int> >  sales;
-    pair<Product , int> temp;
+
     for (const auto & id : ids)
     {   
-        temp.first = inventory.GetProduct(id);
-        temp.second = inventory.GetSalesMap().at(id);
+        pair<Product , int> temp{inventory.GetProduct(id) , inventory.GetSalesMap().at(id)};
         sales.push_back(temp);
     } 
     return sales;
@@ -223,30 +227,4 @@ pair<double, int> Store::CalculateTotalAndNumberOfItems(const Customer &customer
     return total_and_numberOfItems;
 }
 
-void Store::StartCustomerSession()
-{
-    analyzer.BuildPricesTree(inventory.GetProductMap());
-}
 
-void Store::EndCustomerSession()
-{
-    PersistenceData::SaveProducts(inventory.GetProductMap());
-
-    PersistenceData::SaveSales(inventory.GetSalesMap());
-
-    analyzer.BuildSalesTree(inventory.GetSalesMap());
-}
-
-void Store::StartManagerSession()
-{
-    analyzer.BuildSalesTree(inventory.GetSalesMap());
-}
-
-void Store::EndManagerSession()
-{
-    PersistenceData::SaveProducts(inventory.GetProductMap());
-
-    PersistenceData::SaveCategories(inventory.GetCategoryMap());
-
-    analyzer.BuildPricesTree(inventory.BuildPriceMap());
-}

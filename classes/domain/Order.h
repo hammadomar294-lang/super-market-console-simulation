@@ -3,7 +3,7 @@
 
 
 #include <string>
-#include "classes/domain/CartItem.h"
+#include "../domain/CartItem.h"
 #include <vector>
 using namespace std;
 

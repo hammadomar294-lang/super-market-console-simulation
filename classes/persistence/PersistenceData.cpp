@@ -1,4 +1,4 @@
-#include "classes/persistence/PersistenceData.h"
+#include "../persistence/PersistenceData.h"
 
 int PersistenceData::CategoryMaxId = 0;
 int PersistenceData::ProductMaxId = 0;
@@ -45,7 +45,7 @@ unordered_map<int , Product> PersistenceData::LoadProducts(const unordered_map<i
     {
         Product product{product_id,name,price,quantity,FindCategory(categories,category_id)};
 
-        products[product_id] = product;
+        products.emplace(product_id , product);
 
         if (product_id > ProductMaxId)
             ProductMaxId = product_id;
@@ -85,7 +85,7 @@ unordered_map<int , Category> PersistenceData::LoadCategories()
     {
         Category category{id,name,tax,max_amount,least_amount};
 
-        categories[id] = category;
+        categories.emplace(id , category);
         
         if (id > CategoryMaxId)
             CategoryMaxId = id;
@@ -107,6 +107,7 @@ void PersistenceData::SaveCategories(const unordered_map<int , Category> &catego
             category.second.GetMaxAmount() << " " << category.second.GetLeastAmount() << "\n";
     }
     file.close();
+    cout<<"save called"<<endl;
 }
 
 unordered_map<int , int> PersistenceData::LoadSales()

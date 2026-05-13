@@ -8,22 +8,22 @@
 #include <vector>
 #include <utility>
 
-#include "classes/store/Inventory.h"
-#include "classes/BST_analytics/Analyzer.h"
-#include "classes/domain/Order.h"
-#include "classes/domain/user/customer.h"
-#include "classes/domain/Product.h"
+#include "../store/Inventory.h"
+#include "../BST_analytics/Analyzer.h"
+#include "../domain/Order.h"
+#include "../domain/user/customer.h"
+#include "../domain/Product.h"
 using namespace std;
 class Store
 {
-private:
+
+public:
     Inventory inventory;
     Analyzer analyzer;
     queue<Order> OrderQueue;
-public:
-
-    Store();
     
+    Store();
+
     #pragma region customer functions
 
     void AddToCart(Customer & customer , int product_id , int amount);
@@ -73,12 +73,8 @@ public:
     void DequeueOrder();
     //   total   , number of items 
     pair <double , int> CalculateTotalAndNumberOfItems(const Customer & customer) const;
-
-    void StartCustomerSession();
-    void EndCustomerSession();
-
-    void StartManagerSession();
-    void EndManagerSession();
+    
+    
 };
 
 #endif
