@@ -38,6 +38,8 @@ Program/ → orchestrate between every layer inside the main loop and subloops
 
 ## Features
 
+Manager and customer session flows
+
 Inventory management using unordered_map for average O(1) lookup
 
 Category-based restocking thresholds
