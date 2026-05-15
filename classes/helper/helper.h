@@ -26,6 +26,7 @@ public:
     static bool Confirm();
 
     static void PrintLine();
+    static void PrintBigLine();
 
     static string AskForString(string msg);
     static int AskForInt(string msg);

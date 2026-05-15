@@ -49,6 +49,10 @@ void helper::PrintLine()
 {
     cout<<"-----------------------------------------"<<endl;
 }
+void helper::PrintBigLine()
+{
+    cout<<"------------------------------------------------------------------------"<<endl;
+}
 
 string helper::AskForString(string msg)
 {

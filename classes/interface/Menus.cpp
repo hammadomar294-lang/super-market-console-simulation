@@ -24,7 +24,7 @@ void Menus::ShowMainMenu()
 // both manager and customer
 vector<int> Menus::ShowProducts(const vector<Product>& products)
 {
-    helper::PrintLine();
+    helper::PrintBigLine();
 
     vector<int> ids_vector;
 
@@ -56,7 +56,7 @@ vector<int> Menus::ShowProducts(const vector<Product>& products)
         cout << "\n\n";
     }
 
-    helper::PrintLine();
+    helper::PrintBigLine();
     
     return ids_vector;
 }
@@ -67,7 +67,7 @@ vector<int> Menus::ShowProducts(const unordered_map<int, Product>& products)
 
     cout << "\n\n";
 
-    helper::PrintLine();
+    helper::PrintBigLine();
 
     vector<int> displayed_ids;
 
@@ -98,7 +98,7 @@ vector<int> Menus::ShowProducts(const unordered_map<int, Product>& products)
         cout << "\n\n";
 
     cout<<"\n";
-    helper::PrintLine();
+    helper::PrintBigLine();
     return displayed_ids;
 }
 
@@ -139,7 +139,7 @@ void Menus::ShowCartItems(const Customer& customer)
 
 void Menus::ShowCustomerHeader(const Customer& customer)
 {
-
+    cout<<"\n\n\n\n\n";
     cout << "Budget: "
          << customer.GetBudget()
          << " EGP\n\n";
@@ -237,7 +237,7 @@ void Menus::ShowManagerOptions()
 void Menus::ShowMangerMenu(const vector<Product> &low_stock_products)
 {
     helper::ClearScreen();
-
+    cout<<"\n\n\n\n";
     cout << "========================================\n";
     cout << "            Manager Menu\n";
     cout << "========================================\n\n";
@@ -293,7 +293,7 @@ void Menus::ShowCategories(const unordered_map<int, Category>& categories)
 void Menus::ShowManagerProductsOptionsMenu() 
 {
     helper::ClearScreen();
-
+    cout<<"\n";
     cout << "========================================\n";
     cout << "            Products Menu\n";
     cout << "========================================\n\n";

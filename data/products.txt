@@ -1,3 +1,4 @@
-5 eggs 5 200 1
-2 chees 160 97 1
+4 chicken 200 20 3
+3 beef 400 30 3
+2 chees 160 50 1
 1 milk 40 100 1

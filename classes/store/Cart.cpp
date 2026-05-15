@@ -86,7 +86,7 @@ double Cart::GetTotalPrice() const
     double total = 0.0;
     for (const auto & cart_item : CartItemVector)
     {
-        total += cart_item.GetProduct().GetPrice() * cart_item.GetAmount();
+        total += cart_item.GetProduct().GetSalesPrice() * cart_item.GetAmount();
     }
     return total;
 }
